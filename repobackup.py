@@ -3,6 +3,7 @@
 import json
 import os
 import re
+import subprocess
 
 # Check if repo is a git repo and return this fact and additional info.
 #
@@ -27,6 +28,21 @@ def is_git_repo(dirpath, dirnames, filenames):
             conform = True
     return isgit, bare, conform
 
+def is_hg_repo(dirpath, dirnames, filenames):
+    ishg = False
+    bare = False
+    if '.hg' in dirnames:
+        ishg = True
+        try:
+            p = subprocess.Popen(['hg', 'id'], stdout=subprocess.PIPE,
+                    cwd=dirpath)
+            out, err = p.communicate()
+            if '000000000000' in out:
+                bare = True
+        except OSError:
+            bare = 'undefined'
+    return ishg, bare
+
 repos = []
 for dirpath, dirnames, filenames in os.walk(os.path.join(os.environ.get('HOME'),
     'repo')):
@@ -34,9 +50,18 @@ for dirpath, dirnames, filenames in os.walk(os.path.join(os.environ.get('HOME'),
     if isgit:
         d = {
                 'path': dirpath,
-                'isgit': isgit,
+                'type': 'git',
                 'bare': bare,
                 'conform': conform
+                }
+        repos.append(d)
+    ishg, bare = is_hg_repo(dirpath, dirnames, filenames)
+    if ishg:
+        d = {
+                'path': dirpath,
+                'type': 'hg',
+                'bare': bare,
+                'conform': 'n/a'
                 }
         repos.append(d)
 print json.dumps({
