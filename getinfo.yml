@@ -1,0 +1,12 @@
+---
+- hosts: drnik.org
+
+  tasks:
+
+    - name: Test repo tools
+      repobackup: xxx
+      register: retval
+
+    - name: Save result to file
+      local_action: copy content="{{ retval.repos|to_json }}" dest=./results.txt
+
