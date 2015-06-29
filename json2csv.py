@@ -4,7 +4,7 @@ import csv
 import json
 import sys
 
-w = csv.writer(open('results.csv', 'w'))
+w = csv.writer(sys.stdout)
 
 s = sys.stdin.read()
 repos = json.loads(s)
