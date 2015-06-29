@@ -1,7 +1,6 @@
-# ansible-repotool
-Helper for simple repo hosting
+= Helper for simple repo hosting
 
-= What is it?
+== What is it?
 
 A tool to simplify work with a simple repo setup that just consists of some repositories on a server.
 
@@ -9,7 +8,7 @@ If you are like me, your own repo hosting may just consist of repos on a server,
 
 This tool is intended to ease administration of such a repo setup. It works with Git and Mercurial repositories.
 
-= Current state
+== Current state
 
 What is implemented so far? The tool allows you to list your server repos. It creates a CSV file that tells you
 
@@ -23,11 +22,11 @@ For a Mercurial repo, this means that it does not contain checked out files. In 
 
 The "conform" field only applies to Git. It means that a bare repo ends in ".git", the common naming convention for Git server repos.
 
-= Assumptions
+== Assumptions
 
 The tool assumes that all your repositories are in a directory "repo" inside your home on the server. Without this assumption, this tool would have to scan, for example, your whole home directory, which might take quite a long time.
 
-= Plans
+== Plans
 
 * Add backup and restore.
 * Add creation of server-side repos.
