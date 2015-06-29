@@ -26,6 +26,21 @@ The "conform" field only applies to Git. It means that a bare repo ends in ".git
 
 The tool assumes that all your repositories are in a directory "repo" inside your home on the server. Without this assumption, this tool would have to scan, for example, your whole home directory, which might take quite a long time.
 
+== Usage
+
+The tool assumes that you have an inventory file, this should contain a group
+for your servers, like so
+
+....
+[dvcs_servers]
+example.com
+....
+
+The `dvcs_servers` are used in the playbook.
+
+The inventory file is not checked in to version control, your server may not be
+the same as mine ;-)
+
 == Plans
 
 * Add backup and restore.

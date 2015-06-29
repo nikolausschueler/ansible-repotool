@@ -1,5 +1,5 @@
 ---
-- hosts: drnik.org
+- hosts: dvcs_servers
 
   tasks:
 
