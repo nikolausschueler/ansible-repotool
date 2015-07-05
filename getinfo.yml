@@ -11,5 +11,5 @@
       local_action: copy content="{{ retval.repos|to_json }}" dest=./results.txt
 
     - name: Provide CSV
-      local_action: shell ./json2csv.py < results.txt
+      local_action: shell ./json2csv.py < results.txt > results.csv
 
