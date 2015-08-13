@@ -43,23 +43,39 @@ def is_hg_repo(dirpath, dirnames, filenames):
             bare = 'undefined'
     return ishg, bare
 
+def get_size(dirpath):
+    p = subprocess.Popen(['du', '-s', '-h', '.'], stdout=subprocess.PIPE,
+            cwd=dirpath)
+    out, err = p.communicate()
+
+    # Output is of the form
+    # size path
+    # , so we split.
+    reposize = out.split()[0]
+    return reposize
+
+
 repos = []
 for dirpath, dirnames, filenames in os.walk(os.path.join(os.environ.get('HOME'),
     'repo')):
     isgit, bare, conform = is_git_repo(dirpath, dirnames, filenames)
     if isgit:
+        reposize = get_size(dirpath)
         d = {
                 'path': dirpath,
                 'type': 'git',
+                'size': reposize,
                 'bare': bare,
                 'conform': conform
                 }
         repos.append(d)
     ishg, bare = is_hg_repo(dirpath, dirnames, filenames)
     if ishg:
+        reposize = get_size(dirpath)
         d = {
                 'path': dirpath,
                 'type': 'hg',
+                'size': reposize,
                 'bare': bare,
                 'conform': 'n/a'
                 }
