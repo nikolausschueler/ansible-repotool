@@ -14,6 +14,7 @@ What is implemented so far? The tool allows you to list your server repos. It cr
 
 * what type the repo is (Git or Mercurial (aka "hg")),
 * the path on the server,
+* the size, as computed by +du -s -h+,
 * if it is bare or not,
 * if it is a Git repo: does it conform to the Git server repo naming convention?
 
