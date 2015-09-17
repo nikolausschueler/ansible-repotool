@@ -95,8 +95,6 @@ def main():
                     'conform': 'n/a'
                     }
             repos.append(d)
-    print json.dumps({
-        'repos': repos
-        })
+    module.exit_json(changed=True, repos=repos)
 
 main()
