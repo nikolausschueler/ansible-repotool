@@ -56,38 +56,41 @@ def get_size(dirpath):
     reposize = out.split()[0]
     return reposize
 
-module = AnsibleModule(
-    argument_spec=dict(
-        repodir     = dict(default=os.environ.get('HOME')),
-    ),
-)
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            repodir     = dict(default=os.environ.get('HOME')),
+        ),
+    )
 
-repodir = module.params['repodir']
+    repodir = module.params['repodir']
 
-repos = []
-for dirpath, dirnames, filenames in os.walk(repodir):
-    isgit, bare, conform = is_git_repo(dirpath, dirnames, filenames)
-    if isgit:
-        reposize = get_size(dirpath)
-        d = {
-                'path': dirpath,
-                'type': 'git',
-                'size': reposize,
-                'bare': bare,
-                'conform': conform
-                }
-        repos.append(d)
-    ishg, bare = is_hg_repo(dirpath, dirnames, filenames)
-    if ishg:
-        reposize = get_size(dirpath)
-        d = {
-                'path': dirpath,
-                'type': 'hg',
-                'size': reposize,
-                'bare': bare,
-                'conform': 'n/a'
-                }
-        repos.append(d)
-print json.dumps({
-    'repos': repos
-    })
+    repos = []
+    for dirpath, dirnames, filenames in os.walk(repodir):
+        isgit, bare, conform = is_git_repo(dirpath, dirnames, filenames)
+        if isgit:
+            reposize = get_size(dirpath)
+            d = {
+                    'path': dirpath,
+                    'type': 'git',
+                    'size': reposize,
+                    'bare': bare,
+                    'conform': conform
+                    }
+            repos.append(d)
+        ishg, bare = is_hg_repo(dirpath, dirnames, filenames)
+        if ishg:
+            reposize = get_size(dirpath)
+            d = {
+                    'path': dirpath,
+                    'type': 'hg',
+                    'size': reposize,
+                    'bare': bare,
+                    'conform': 'n/a'
+                    }
+            repos.append(d)
+    print json.dumps({
+        'repos': repos
+        })
+
+main()
