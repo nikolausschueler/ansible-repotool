@@ -7,6 +7,10 @@ import subprocess
 
 from ansible.module_utils.basic import *
 
+# Note: This module is called "repobackup", although in the moment it only does
+# discovery. I kept the name because the end goal is to back up the repos this
+# module detects.
+
 # Check if repo is a git repo and return this fact and additional info.
 #
 # Returns:
