@@ -68,6 +68,8 @@ def main():
     )
 
     repodir = module.params['repodir']
+    if not os.path.isdir(repodir):
+        module.fail_json(msg='Directory "%s" not found' % (repodir))
 
     repos = []
     for dirpath, dirnames, filenames in os.walk(repodir):
