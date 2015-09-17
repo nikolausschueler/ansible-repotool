@@ -23,10 +23,6 @@ For a Mercurial repo, this means that it does not contain checked out files. In 
 
 The "conform" field only applies to Git. It means that a bare repo ends in ".git", the common naming convention for Git server repos.
 
-== Assumptions
-
-The tool assumes that all your repositories are in a directory "repo" inside your home on the server. Without this assumption, this tool would have to scan, for example, your whole home directory, which might take quite a long time.
-
 == Usage
 
 The tool assumes that you have an inventory file, this should contain a group
@@ -34,10 +30,15 @@ for your servers, like so
 
 ....
 [dvcs_servers]
-example.com
+example.com repodir=/home/nik/repo
 ....
 
 The `dvcs_servers` are used in the playbook.
+
+The _repodir_ parameter is optional. If it is not specified, the home directory
+is used as a starting point for the repo search. You should declare a more
+specific directory here, else the tool will scan your whole home directory,
+which might take quite a long time.
 
 The inventory file is not checked in to version control, your server may not be
 the same as mine ;-)
