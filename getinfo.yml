@@ -4,7 +4,7 @@
   tasks:
 
     - name: Test repo tools
-      repobackup: xxx
+      repobackup: repodir={{ repodir }}
       register: retval
 
     - name: Save result to file
