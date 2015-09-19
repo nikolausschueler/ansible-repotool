@@ -73,28 +73,26 @@ def main():
 
     repos = []
     for dirpath, dirnames, filenames in os.walk(repodir):
+        reposize = get_size(dirpath)
+        d = {
+                'path': dirpath,
+                'size': reposize
+                }
         isgit, bare, conform = is_git_repo(dirpath, dirnames, filenames)
         if isgit:
-            reposize = get_size(dirpath)
-            d = {
-                    'path': dirpath,
-                    'type': 'git',
-                    'size': reposize,
-                    'bare': bare,
-                    'conform': conform
-                    }
-            repos.append(d)
+            d['type'] = 'git'
+            d['bare'] = bare
+            d['conform'] = conform
         ishg, bare = is_hg_repo(dirpath, dirnames, filenames)
         if ishg:
-            reposize = get_size(dirpath)
-            d = {
-                    'path': dirpath,
-                    'type': 'hg',
-                    'size': reposize,
-                    'bare': bare,
-                    'conform': 'n/a'
-                    }
+            d['type'] = 'hg'
+            d['bare'] = bare
+            d['conform'] = 'n/a'
+
+        # Only use the dictionary if we really found a repository.
+        if d.get('type') is not None:
             repos.append(d)
+
     module.exit_json(changed=True, repos=repos)
 
 main()
