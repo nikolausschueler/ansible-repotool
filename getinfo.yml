@@ -7,9 +7,22 @@
       repobackup: repodir={{ repodir }}
       register: retval
 
+    # Inject fact into hostvars.
+    - set_fact:
+        myresult= "{{ retval.repos }}"
+
     - name: Save result to file
       local_action: copy content="{{ retval.repos|to_json }}" dest=./results.txt
 
     - name: Provide CSV
       local_action: shell ./json2csv.py < results.txt > results.csv
 
+- hosts: localhost
+
+  tasks:
+
+    - debug: msg="{% set l = [] %}\
+        {% for host in groups['dvcs_servers'] %}\
+        {{ l.extend(hostvars[host]['retval']['repos']) }}\
+        {% endfor %}\
+        {{ l }}"
